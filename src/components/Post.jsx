@@ -1,13 +1,17 @@
 import React from 'react';
 import PostAuthor from './PostAuthor';
+import ReactionButtons from './ReactionButtons';
 
-const Post = ({ title, content, userId }) => {
+const Post = ({ post }) => {
     return (
         <div className="Post">
-            <p>{title}</p>
-            <p>{content}</p>
+            <p>{post.title}</p>
+            <p>{post.content}</p>
             <div>
-                <PostAuthor userId={userId} />
+                <PostAuthor userId={post.userId} />
+            </div>
+            <div>
+                <ReactionButtons post={post} />
             </div>
         </div>
     );

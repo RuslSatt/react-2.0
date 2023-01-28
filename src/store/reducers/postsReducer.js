@@ -45,16 +45,28 @@ export const postsSlice = createSlice({
                         title,
                         content,
                         userId,
+                        reactions: {
+                            thumbsUp: 0,
+                            wow: 0,
+                            heart: 0,
+                            rocket: 0,
+                            coffee: 0,
+                        },
                     },
                 };
             },
         },
-        deletePost() {},
+        addReaction(state, action) {
+            const { postId, reaction } = action.payload;
+            const existPost = state.find(post => post.id === postId);
+            if (!existPost) return;
+            existPost.reactions[reaction]++;
+        },
     },
 });
 
 export const allPosts = state => state.postsReducer;
 
-export const { addPost, deletePost } = postsSlice.actions;
+export const { addPost, addReaction } = postsSlice.actions;
 
 export default postsSlice.reducer;
