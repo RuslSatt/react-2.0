@@ -3,28 +3,35 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
 import { addPost } from '../store/reducers/postsReducer';
-import { useDispatch } from 'react-redux';
-import { nanoid } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { allUsers } from '../store/reducers/usersReducer';
 
 const AddPostForm = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [userId, setUserId] = useState('');
+
+    const users = useSelector(allUsers);
+
+    const usersList = users.map(user => (
+        <option key={user.id} value={user.id}>
+            {user.name}
+        </option>
+    ));
+
     const dispatch = useDispatch();
 
     const handleSavePost = () => {
-        if (title && content) {
-            const model = {
-                id: nanoid(),
-                title,
-                content,
-            };
-
-            console.log(model);
-            dispatch(addPost(model));
+        if (title && content && userId) {
+            dispatch(addPost(title, content, userId));
 
             setTitle('');
             setContent('');
         }
+    };
+
+    const handleSelectUser = e => {
+        setUserId(e.target.value);
     };
 
     return (
@@ -34,6 +41,10 @@ const AddPostForm = () => {
             </div>
             <Input value={title} setValue={setTitle} name={'Set name'}></Input>
             <Input value={content} setValue={setContent} name={'Set last name'}></Input>
+            <select value={userId} onChange={handleSelectUser}>
+                <option value=""></option>
+                {usersList}
+            </select>
             <Button handleSavePost={handleSavePost}></Button>
         </div>
     );

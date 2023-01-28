@@ -5,8 +5,8 @@ import AddPostForm from './pages/AddPostForm';
 function App() {
     return (
         <div className="App">
-            <AddPostForm></AddPostForm>
-            <PostsList></PostsList>
+            <AddPostForm />
+            <PostsList />
         </div>
     );
 }

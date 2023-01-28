@@ -1,10 +1,14 @@
 import React from 'react';
+import PostAuthor from './PostAuthor';
 
-const Post = ({ title, content }) => {
+const Post = ({ title, content, userId }) => {
     return (
-        <div>
+        <div className="Post">
             <p>{title}</p>
             <p>{content}</p>
+            <div>
+                <PostAuthor userId={userId} />
+            </div>
         </div>
     );
 };
