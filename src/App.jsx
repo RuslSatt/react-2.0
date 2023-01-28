@@ -1,16 +1,12 @@
 import './App.css';
-import { useSelector, useDispatch } from 'react-redux';
-import Registration from './pages/Registration';
+import PostsList from './pages/PostsList';
+import AddPostForm from './pages/AddPostForm';
 
 function App() {
-    const count = useSelector(state => state.countSlice.value);
-    const dispatch = useDispatch();
-
-    console.log(count);
-
     return (
         <div className="App">
-            <Registration></Registration>
+            <AddPostForm></AddPostForm>
+            <PostsList></PostsList>
         </div>
     );
 }

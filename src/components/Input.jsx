@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-const Input = ({ name }) => {
-    const [value, setValue] = useState('');
+const Input = ({ name, value, setValue }) => {
+    const changeValue = e => setValue(e.target.value);
 
     return (
         <div>
             <label htmlFor="input">{name}</label>
-            <input className="input" value={value} onChange={e => setValue(e.target.value)} />
+            <input className="input" value={value} onChange={changeValue} />
         </div>
     );
 };
