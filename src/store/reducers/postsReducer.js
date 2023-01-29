@@ -1,10 +1,22 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
 
 const initialState = {
     posts: [],
     status: 'idle',
     error: null,
 };
+
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+    try {
+        const response = await axios.get(POSTS_URL);
+        return [...response.data];
+    } catch (e) {
+        return e.message;
+    }
+});
 
 export const postsSlice = createSlice({
     name: 'posts',
@@ -39,9 +51,37 @@ export const postsSlice = createSlice({
             existPost.reactions[reaction]++;
         },
     },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchPosts.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchPosts.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+
+                const loadedPosts = action.payload.map(model => {
+                    model.reactions = {
+                        thumbsUp: 0,
+                        wow: 0,
+                        heart: 0,
+                        rocket: 0,
+                        coffee: 0,
+                    };
+                    return model;
+                });
+
+                state.posts = state.posts.concat(loadedPosts);
+            })
+            .addCase(fetchPosts.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.status = 'failed';
+            });
+    },
 });
 
 export const allPosts = state => state.postsReducer.posts;
+export const getPostsStatus = state => state.postsReducer.status;
+export const getPostsError = state => state.postsReducer.error;
 
 export const { addPost, addReaction } = postsSlice.actions;
 
