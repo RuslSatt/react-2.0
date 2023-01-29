@@ -6,6 +6,8 @@ import { allPosts } from '../store/reducers/postsReducer';
 const PostsList = () => {
     const posts = useSelector(allPosts);
 
+    if (!posts?.length) return;
+
     const postsList = posts.map(post => <Post key={post.id.toString()} post={post}></Post>);
 
     return <div>{postsList}</div>;
