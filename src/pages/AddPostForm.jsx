@@ -2,7 +2,7 @@ import React from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
-import { addPost } from '../store/reducers/postsReducer';
+import { addNewPost } from '../store/reducers/postsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { allUsers } from '../store/reducers/usersReducer';
 
@@ -23,10 +23,11 @@ const AddPostForm = () => {
 
     const handleSavePost = () => {
         if (title && content && userId) {
-            dispatch(addPost(title, content, userId));
+            dispatch(addNewPost({ title, content, userId }));
 
             setTitle('');
             setContent('');
+            setUserId('');
         }
     };
 

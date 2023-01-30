@@ -15,10 +15,14 @@ const PostsList = () => {
     const postsStatus = useSelector(getPostsStatus);
     const postsError = useSelector(getPostsError);
 
+    const ref = React.useRef(false);
+
     useEffect(() => {
-        debugger;
-        if (postsStatus === 'idle') {
-            dispatch(fetchPosts());
+        if (ref.current === false) {
+            if (postsStatus === 'idle') {
+                ref.current = true;
+                dispatch(fetchPosts());
+            }
         }
     }, [postsStatus, dispatch]);
 

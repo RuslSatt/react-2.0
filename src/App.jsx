@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import PostsList from './pages/PostsList';
 import AddPostForm from './pages/AddPostForm';
 import { useDispatch } from 'react-redux';
@@ -8,8 +9,13 @@ import { fetchUsers } from './store/reducers/usersReducer';
 function App() {
     const dispatch = useDispatch();
 
+    let isEffect = React.useRef(false);
+
     useEffect(() => {
-        dispatch(fetchUsers());
+        if (isEffect.current === false) {
+            isEffect.current = true;
+            dispatch(fetchUsers());
+        }
     }, []);
 
     return (
