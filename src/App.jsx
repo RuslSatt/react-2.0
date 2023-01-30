@@ -5,6 +5,8 @@ import AddPostForm from './pages/AddPostForm';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchUsers } from './store/reducers/usersReducer';
+import Header from './components/Header';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
     const dispatch = useDispatch();
@@ -20,8 +22,11 @@ function App() {
 
     return (
         <div className="App">
-            <AddPostForm />
-            <PostsList />
+            <Header />
+            <Routes>
+                <Route path="/" element={<PostsList />} />
+                <Route path="/post" element={<AddPostForm />} />
+            </Routes>
         </div>
     );
 }
