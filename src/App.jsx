@@ -1,12 +1,14 @@
 import './App.css';
 import React from 'react';
 import PostsList from './pages/PostsList';
-import AddPostForm from './pages/AddPostForm';
+import PostFromPage from './pages/PostFormPage';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchUsers } from './store/reducers/usersReducer';
 import Header from './components/Header';
 import { Route, Routes } from 'react-router-dom';
+import PostPage from './pages/PostPage';
+import EditPostPage from './pages/EditPostPage';
 
 function App() {
     const dispatch = useDispatch();
@@ -25,7 +27,9 @@ function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<PostsList />} />
-                <Route path="/post" element={<AddPostForm />} />
+                <Route path="/post/:id" element={<PostPage />} />
+                <Route path="/edit/:id" element={<EditPostPage />} />
+                <Route path="/post" element={<PostFromPage />} />
             </Routes>
         </div>
     );
