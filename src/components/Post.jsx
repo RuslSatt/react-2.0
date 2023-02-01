@@ -2,8 +2,30 @@ import React from 'react';
 import PostAuthor from './PostAuthor';
 import ReactionButtons from './ReactionButtons';
 import { Link } from 'react-router-dom';
+import Button from './Button';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { deletePost } from '../store/reducers/postsReducer';
 
 const Post = ({ post, isView }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleDeletePost = () => {
+        dispatch(deletePost(post.id));
+
+        navigate('/');
+    };
+
+    let deleteButton;
+    if (isView) {
+        deleteButton = (
+            <div>
+                <Button text={'Delete post'} handleStatePost={handleDeletePost} />
+            </div>
+        );
+    }
+
     return (
         <div className="Post">
             <p>{post.title}</p>
@@ -16,6 +38,7 @@ const Post = ({ post, isView }) => {
                 )}
                 <PostAuthor userId={post.userId} />
             </div>
+            {deleteButton}
             <div>
                 <ReactionButtons post={post} />
             </div>

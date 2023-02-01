@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Button = ({ handleSavePost, handleEditPost, text }) => {
+const Button = ({ handleStatePost, text }) => {
     return (
         <>
-            <button onClick={handleSavePost || handleEditPost}>{text}</button>
+            <button onClick={handleStatePost}>{text}</button>
         </>
     );
 };

@@ -7,6 +7,7 @@ const initialState = {
     posts: [],
     status: 'idle',
     error: null,
+    isLoading: false,
 };
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
@@ -29,8 +30,18 @@ export const addNewPost = createAsyncThunk('posts/addNewPost', async initialPost
 
 export const editPost = createAsyncThunk('posts/editPost', async initialPost => {
     try {
-        const response = await axios.put(POSTS_URL, initialPost);
+        const response = await axios.put(`${POSTS_URL}/${initialPost.id}`, initialPost);
         return response.data;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+export const deletePost = createAsyncThunk('posts/deletePost', async postId => {
+    try {
+        const response = await axios.delete(`${POSTS_URL}/${postId}`);
+        if (response?.status === 200) return postId;
+        return `${response.status}: ${response.statusText}`;
     } catch (err) {
         return err.message;
     }
@@ -45,6 +56,9 @@ export const postsSlice = createSlice({
             const existPost = state.posts.find(post => post.id === postId);
             if (!existPost) return;
             existPost.reactions[reaction]++;
+        },
+        changeIsLoading(state, action) {
+            state.status = action.payload;
         },
     },
     extraReducers: builder => {
@@ -84,9 +98,16 @@ export const postsSlice = createSlice({
                 state.posts.push(action.payload);
             })
             .addCase(editPost.fulfilled, (state, action) => {
-                state.posts.map(post =>
-                    post.id === action.payload.id ? { ...action.payload } : post
-                );
+                action.payload.userId = Number(action.payload.userId);
+                const { id } = action.payload;
+                const posts = state.posts.filter(post => post.id !== id);
+                state.posts = [...posts, action.payload];
+                state.isLoading = false;
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                const id = action.payload;
+                state.posts = state.posts.filter(post => post.id !== id);
+                state.isLoading = false;
             });
     },
 });
@@ -94,11 +115,12 @@ export const postsSlice = createSlice({
 export const allPosts = state => state.postsReducer.posts;
 export const getPostsStatus = state => state.postsReducer.status;
 export const getPostsError = state => state.postsReducer.error;
+export const getIsLoading = state => state.postsReducer.isLoading;
 
 export const getPostById = (state, id) => {
     return state.postsReducer.posts.find(post => post.id.toString() === id);
 };
 
-export const { addPost, addReaction } = postsSlice.actions;
+export const { addReaction, changeIsLoading } = postsSlice.actions;
 
 export default postsSlice.reducer;

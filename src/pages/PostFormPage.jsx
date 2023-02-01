@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
-import { addNewPost, editPost } from '../store/reducers/postsReducer';
+import {
+    addNewPost,
+    editPost,
+    changeIsLoading,
+    getIsLoading,
+} from '../store/reducers/postsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { allUsers } from '../store/reducers/usersReducer';
+import { useNavigate } from 'react-router-dom';
 
 const PostFromPage = ({ post }) => {
     const [title, setTitle] = useState(post?.title || '');
@@ -12,6 +18,8 @@ const PostFromPage = ({ post }) => {
     const [userId, setUserId] = useState(post?.userId || '');
 
     const users = useSelector(allUsers);
+    const isLoading = useSelector(getIsLoading);
+    const navigate = useNavigate();
 
     const usersList = users.map(user => (
         <option key={user.id} value={user.id}>
@@ -30,7 +38,16 @@ const PostFromPage = ({ post }) => {
     };
 
     const handleEditPost = () => {
-        dispatch(editPost(post));
+        dispatch(changeIsLoading(true));
+        const editedPost = {
+            id: Number(post.id),
+            title,
+            content,
+            userId,
+            reactions: post.reactions,
+        };
+
+        dispatch(editPost(editedPost));
         resetState();
     };
 
@@ -56,9 +73,9 @@ const PostFromPage = ({ post }) => {
                 {usersList}
             </select>
             {!post ? (
-                <Button text={'Save'} handleSavePost={handleSavePost} />
+                <Button text={'Save'} handleStatePost={handleSavePost} />
             ) : (
-                <Button text={'Edit'} handleEditPost={handleEditPost} />
+                <Button text={'Edit'} handleStatePost={handleEditPost} />
             )}
         </div>
     );
