@@ -14,6 +14,9 @@ const Navigation = () => {
                 <Link className="text-slate-50" to={'/users'}>
                     Users
                 </Link>
+                <Link className="text-slate-50" to={'/todo'}>
+                    Todo
+                </Link>
             </ul>
         </nav>
     );

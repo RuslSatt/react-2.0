@@ -11,6 +11,7 @@ import PostPage from './pages/PostPage';
 import EditPostPage from './pages/EditPostPage';
 import UsersList from './pages/UsersList';
 import UserPage from './pages/UserPage';
+import Todo from './pages/Todo/Todo';
 
 function App() {
     const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/post" element={<PostFromPage />} />
                 <Route path="/users" element={<UsersList />} />
                 <Route path="/user/:userId" element={<UserPage />} />
+                <Route path="/todo" element={<Todo />} />
             </Routes>
         </div>
     );
