@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
-import {
-    addNewPost,
-    editPost,
-    changeIsLoading,
-    getIsLoading,
-} from '../store/reducers/postsReducer';
+import { addNewPost, editPost } from '../store/reducers/postsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { allUsers } from '../store/reducers/usersReducer';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +13,6 @@ const PostFromPage = ({ post }) => {
     const [userId, setUserId] = useState(post?.userId || '');
 
     const users = useSelector(allUsers);
-    const isLoading = useSelector(getIsLoading);
     const navigate = useNavigate();
 
     const usersList = users.map(user => (
@@ -38,7 +32,6 @@ const PostFromPage = ({ post }) => {
     };
 
     const handleEditPost = () => {
-        dispatch(changeIsLoading(true));
         const editedPost = {
             id: Number(post.id),
             title,
@@ -49,6 +42,7 @@ const PostFromPage = ({ post }) => {
 
         dispatch(editPost(editedPost));
         resetState();
+        navigate(`/post/${post.id}`);
     };
 
     function resetState() {
