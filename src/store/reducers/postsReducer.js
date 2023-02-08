@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
@@ -116,6 +116,11 @@ export const getPostsError = state => state.postsReducer.error;
 export const getPostById = (state, id) => {
     return state.postsReducer.posts.find(post => post.id.toString() === id);
 };
+
+export const getPostsByUser = createSelector(
+    [allPosts, (state, userId) => userId],
+    (posts, userId) => posts.filter(post => post.userId === userId)
+);
 
 export const { addReaction } = postsSlice.actions;
 
