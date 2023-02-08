@@ -11,6 +11,9 @@ const Navigation = () => {
                 <Link className="text-slate-50" to={'/post'}>
                     Post
                 </Link>
+                <Link className="text-slate-50" to={'/users'}>
+                    Users
+                </Link>
             </ul>
         </nav>
     );

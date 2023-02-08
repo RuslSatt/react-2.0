@@ -9,6 +9,8 @@ import Header from './components/Header';
 import { Route, Routes } from 'react-router-dom';
 import PostPage from './pages/PostPage';
 import EditPostPage from './pages/EditPostPage';
+import UsersList from './pages/UsersList';
+import UserPage from './pages/UserPage';
 
 function App() {
     const dispatch = useDispatch();
@@ -30,6 +32,8 @@ function App() {
                 <Route path="/post/:id" element={<PostPage />} />
                 <Route path="/edit/:id" element={<EditPostPage />} />
                 <Route path="/post" element={<PostFromPage />} />
+                <Route path="/users" element={<UsersList />} />
+                <Route path="/user/:userId" element={<UserPage />} />
             </Routes>
         </div>
     );
