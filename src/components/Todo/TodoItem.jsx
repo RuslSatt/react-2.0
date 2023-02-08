@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRemoveTodoMutation, useUpdateTodoMutation } from '../../store/api/apiReducer';
+// import { useRemoveTodoMutation, useUpdateTodoMutation } from '../../store/api/apiReducer';
 
 const TodoItem = ({ item }) => {
     const [deleteItem] = useRemoveTodoMutation();

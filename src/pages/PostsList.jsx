@@ -7,31 +7,34 @@ import {
     getPostsError,
     fetchPosts,
 } from '../store/reducers/postsReducer';
+import { useGetPostsQuery } from '../store/api/apiReducer';
 import { useEffect } from 'react';
 
 const PostsList = () => {
     const dispatch = useDispatch();
-    const posts = useSelector(allPosts);
+    // const posts = useSelector(allPosts);
     const postsStatus = useSelector(getPostsStatus);
     const postsError = useSelector(getPostsError);
 
     const ref = React.useRef(false);
 
-    useEffect(() => {
-        if (ref.current === false) {
-            if (postsStatus === 'idle') {
-                ref.current = true;
-                dispatch(fetchPosts());
-            }
-        }
-    }, [postsStatus, dispatch]);
+    // useEffect(() => {
+    //     if (ref.current === false) {
+    //         if (postsStatus === 'idle') {
+    //             ref.current = true;
+    //             dispatch(fetchPosts());
+    //         }
+    //     }
+    // }, [postsStatus, dispatch]);
+
+    const { data: posts, isSuccess, isLoading, isError } = useGetPostsQuery();
 
     let content;
-    if (postsStatus === 'loading') {
+    if (isLoading) {
         content = <p>Loading...</p>;
-    } else if (postsStatus === 'succeeded') {
+    } else if (isSuccess) {
         content = posts.map(post => <Post key={post.id.toString()} post={post}></Post>);
-    } else if (postsStatus === 'failed') {
+    } else if (isError) {
         content = <p>{postsError}</p>;
     }
 

@@ -35,7 +35,7 @@ function App() {
                 <Route path="/post" element={<PostFromPage />} />
                 <Route path="/users" element={<UsersList />} />
                 <Route path="/user/:userId" element={<UserPage />} />
-                <Route path="/todo" element={<Todo />} />
+                {/* <Route path="/todo" element={<Todo />} /> */}
             </Routes>
         </div>
     );

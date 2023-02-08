@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoItem from '../../components/Todo/TodoItem';
-import { useGetTodoQuery } from '../../store/api/apiReducer';
+// import { useGetTodoQuery } from '../../store/api/apiReducer';
 
 const TodoList = () => {
     const { data, error, isError, isLoading, isSuccess } = useGetTodoQuery();

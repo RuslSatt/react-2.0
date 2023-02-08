@@ -39,9 +39,9 @@ const Post = ({ post, isView }) => {
                 <PostAuthor userId={post.userId} />
             </div>
             {deleteButton}
-            <div>
+            {/* <div>
                 <ReactionButtons post={post} />
-            </div>
+            </div> */}
         </div>
     );
 };
