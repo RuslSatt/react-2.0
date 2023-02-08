@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
+import { useAddTodoMutation } from '../../store/api/apiReducer';
 
 const AddItemPage = () => {
     const [value, setValue] = useState('');
 
-    const handleSubmit = () => {};
+    const [addTodo] = useAddTodoMutation();
+
+    const handleSubmit = () => {
+        const model = {
+            userId: 1,
+            title: value,
+            completed: false,
+        };
+        addTodo(model);
+        setValue('');
+    };
 
     return (
         <form className="flex gap-5 items-center justify-center" onSubmit={e => e.preventDefault()}>
