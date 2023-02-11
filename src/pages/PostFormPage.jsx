@@ -2,7 +2,8 @@ import React from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
-import { addNewPost, editPost } from '../store/reducers/postsReducer';
+// import { addNewPost, editPost } from '../store/reducers/postsReducer';
+import { useUpdatePostQuery, useAddPostQuery } from '../store/reducers/postsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { allUsers } from '../store/reducers/usersReducer';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +16,10 @@ const PostFromPage = ({ post }) => {
     const users = useSelector(allUsers);
     const navigate = useNavigate();
 
+    const [addNewPost] = useAddPostQuery();
+
+    const [editPost] = useUpdatePostQuery();
+
     const usersList = users.map(user => (
         <option key={user.id} value={user.id}>
             {user.name}
@@ -23,15 +28,15 @@ const PostFromPage = ({ post }) => {
 
     const dispatch = useDispatch();
 
-    const handleSavePost = () => {
+    const handleSavePost = async () => {
         if (title && content && userId) {
-            dispatch(addNewPost({ title, content, userId }));
+            await addNewPost({ title, content, userId });
 
             resetState();
         }
     };
 
-    const handleEditPost = () => {
+    const handleEditPost = async () => {
         const editedPost = {
             id: Number(post.id),
             title,
@@ -40,7 +45,8 @@ const PostFromPage = ({ post }) => {
             reactions: post.reactions,
         };
 
-        dispatch(editPost(editedPost));
+        await editPost(editedPost);
+
         resetState();
         navigate(`/post/${post.id}`);
     };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addReaction } from '../store/reducers/postsReducer';
+import { useAddReactionsQuery } from '../store/reducers/postsReducer';
 
 const ReactionButtons = ({ post }) => {
     const dispatch = useDispatch();
@@ -14,12 +14,10 @@ const ReactionButtons = ({ post }) => {
     };
 
     const handleClickOnEmoji = name => {
-        dispatch(
-            addReaction({
-                postId: post.id,
-                reaction: name,
-            })
-        );
+        useAddReactionsQuery({
+            postId: post.id,
+            reaction: name,
+        });
     };
 
     const buttons = Object.entries(types).map(([name, emoji]) => {
